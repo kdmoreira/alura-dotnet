@@ -6,8 +6,4 @@
     <RootNamespace>CS03_ByteBank</RootNamespace>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\CS03-ByteBank.Domain\CS03-ByteBank.Domain.csproj" />
-  </ItemGroup>
-
 </Project>

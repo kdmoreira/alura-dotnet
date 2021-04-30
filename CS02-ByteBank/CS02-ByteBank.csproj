@@ -6,8 +6,4 @@
     <RootNamespace>CSharp_02</RootNamespace>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\CS02-ByteBank.Domain\CS02-ByteBank.Domain.csproj" />
-  </ItemGroup>
-
 </Project>
