@@ -1,4 +1,8 @@
-﻿namespace CS04_ByteBank.Domain
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace CS04_Excecoes
 {
     public class Cliente
     {

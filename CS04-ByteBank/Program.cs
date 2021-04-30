@@ -1,75 +1,129 @@
-﻿using CS02_ByteBank.Domain;
+﻿using CS04_ByteBank.Domain;
+using CS04_ByteBank.Domain.Exceptions;
+using CS04_ByteBank.Domain.LeitorArquivo;
 using System;
+using System.IO;
 
-namespace CS02_ByteBank
+namespace CS04_ByteBank
 {
     class Program
     {
         static void Main(string[] args)
         {
-            // Composição de classes
-            Cliente gabriela = new Cliente(); // Sem construtor definido
-            gabriela.Nome = "Gabriela";
-            gabriela.Profissao = "Desenvolvedora C#";
-            gabriela.Cpf = "01848769822";
-
-            Cliente bruno = new Cliente();
-            bruno.Nome = "Bruno";
-            bruno.Profissao = "Desenvolvedor Java";
-            bruno.Cpf = "12865478941";
-
-            ContaCorrente contaGabriela = new ContaCorrente(867, 487965); // Com construtor
-            contaGabriela.Titular = gabriela;
-            contaGabriela.Saldo = 200;
-            Console.WriteLine(contaGabriela.Saldo);
-
-            contaGabriela.Depositar(100);
-            Console.WriteLine(contaGabriela.Saldo);
-
-            ContaCorrente contaBruno = new ContaCorrente(968, 431625);
-            contaBruno.Titular = bruno;
-            contaBruno.Saldo = 50;
-
-            contaGabriela.ExibirSaldo();
-            contaBruno.ExibirSaldo();
-
-            // Métodos com e sem retorno
-            bool resultado1 = contaGabriela.Sacar(500);
-            Console.WriteLine("Resultado: " + resultado1);
-
-            bool resultado2 = contaGabriela.Sacar(50);
-            Console.WriteLine("Resultado: " + resultado2);
-
-            contaGabriela.ExibirSaldo();
-
-            contaGabriela.Depositar(500);
-            contaGabriela.ExibirSaldo();
-
-            bool resultadoTransferencia = contaGabriela.Transferir(contaBruno, 200);
-            Console.WriteLine("Resultado Transferência: " + resultadoTransferencia);
-
-            contaGabriela.ExibirSaldo();
-            contaBruno.ExibirSaldo();
-
-            // Tentando acessar campo de refêrencia nula
-            ContaCorrente contaSemTitular = new ContaCorrente(741, 963258)
-            {
-                Saldo = 100
-            };
-
-            Console.WriteLine(contaSemTitular.Titular); // Titular é null, ok
-
             try
             {
-                Console.WriteLine(contaSemTitular.Titular.Nome); // Exceção
+                CarregarContasComUsing();
             }
-            catch (NullReferenceException)
+            catch (Exception)
             {
-                Console.WriteLine("Ops! A referência do campo titular é nula!");
+                Console.WriteLine("CATCH NO METODO MAIN");
             }
+            //CarregarContas();
+            //TestaInnerException();
+            //TestaExcecoes();
+        }
 
-            // Propriedade da classe, e não de objetos
-            Console.WriteLine(ContaCorrente.TotalContasCriadas);
+        private static void CarregarContasComUsing()
+        {
+            using (LeitorDeArquivo leitor = new LeitorDeArquivo("contas.txt"))
+            {
+                leitor.LerProximaLinha();
+            }
+        }
+
+        private static void CarregarContas()
+        {
+            // Abaixo, uma forma de lidar com exceções usando o finally,
+            // o que poderia ter sido simplificado (veja exemplo com using acima)
+            LeitorDeArquivo leitor = null;
+            try
+            {
+                leitor = new LeitorDeArquivo("contas.txt");
+                leitor.LerProximaLinha();
+                leitor.LerProximaLinha();
+                leitor.LerProximaLinha();
+            }
+            catch (IOException)
+            {
+                Console.WriteLine("Exceção do tipo IOException capturada e tratada!");
+            }
+            finally
+            {
+                if (leitor != null)
+                {
+                    leitor.Fechar();
+                }
+            }
+        }
+
+        static void TestaInnerExceptions()
+        {
+            try
+            {
+                ContaCorrente conta = new ContaCorrente(1, 1);
+                ContaCorrente conta2 = new ContaCorrente(2, 2);
+
+                conta.Sacar(500);
+                //conta.Transferir(conta2, 500);
+            }
+            catch (OperacaoFinanceiraException ex)
+            {
+                Console.WriteLine(ex.Message);
+                Console.WriteLine(ex.StackTrace);
+
+                //Console.WriteLine("Informações da INNER EXCEPTION:" );
+                //Console.WriteLine(ex.InnerException.Message);
+                //Console.WriteLine(ex.InnerException.StackTrace);
+            }
+        }
+
+        static void TestaExcecoes()
+        {
+            try
+            {
+                ContaCorrente conta = new ContaCorrente(1, 1);
+                ContaCorrente conta2 = new ContaCorrente(2, 2);
+
+                // Testando exceções personalizadas
+                //conta.Sacar(500);
+                //conta.Sacar(-50);
+                conta.Transferir(conta2, 500);
+                //conta.Transferir(conta2, -500);
+
+                // Esta divisão por zero é tratada e o fluxo segue normalmente
+                //var div = 0;
+                //var res = 1 / div;
+            }
+            catch (DivideByZeroException ex)
+            {
+                Console.WriteLine("Ocorreu uma exceção do tipo DivideByZeroException.");
+                Console.WriteLine(ex.Message);
+            }
+            catch (SaldoInsuficienteException ex) // Exceção personalizada
+            {
+                Console.WriteLine(ex.Saldo);
+                Console.WriteLine(ex.ValorSaque);
+
+                Console.WriteLine(ex.StackTrace);
+
+                Console.WriteLine("Exceção do tipo SaldoInsuficienteException.");
+                Console.WriteLine(ex.Message);
+            }
+            catch (ArgumentException ex)
+            {
+                if (ex.ParamName == "numero")
+                {
+
+                }
+
+                Console.WriteLine("Ocorreu uma exceção do tipo ArgumentException.", ex.ParamName);
+                Console.WriteLine(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                Console.WriteLine(ex.StackTrace);
+            }
         }
     }
 }

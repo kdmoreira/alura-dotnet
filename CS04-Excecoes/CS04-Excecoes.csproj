@@ -3,11 +3,7 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <RootNamespace>CSharp_02</RootNamespace>
+    <RootNamespace>CS04_Excecoes</RootNamespace>
   </PropertyGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\CS04-ByteBank.Domain\CS04-ByteBank.Domain.csproj" />
-  </ItemGroup>
 
 </Project>
