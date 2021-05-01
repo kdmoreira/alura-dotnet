@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Humanizer" Version="2.9.9" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\CS05-ByteBank.Modelos\CS05-ByteBank.Modelos.csproj" />
   </ItemGroup>
 
