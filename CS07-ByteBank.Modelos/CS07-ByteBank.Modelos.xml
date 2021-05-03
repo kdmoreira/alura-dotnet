@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <doc>
     <assembly>
-        <name>CS07-ByteBank.Modelos</name>
+        <name>CS05-ByteBank.Modelos</name>
     </assembly>
     <members>
         <member name="T:ByteBank.Modelos.ContaCorrente">

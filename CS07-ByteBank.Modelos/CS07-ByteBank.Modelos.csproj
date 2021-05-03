@@ -1,0 +1,12 @@
+﻿
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>C:\Users\Karina Moreira\C#\Alura\CS05-ByteBank.Modelos\CS05-ByteBank.Modelos.xml</DocumentationFile>
+  </PropertyGroup>
+
+</Project>
