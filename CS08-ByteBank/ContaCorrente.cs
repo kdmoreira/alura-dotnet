@@ -7,7 +7,7 @@ namespace ByteBank.SistemaAgencia
     /// <summary>
     /// Define uma conta corrente do banco ByteBank.
     /// </summary>
-    public class ContaCorrente
+    public class ContaCorrente : IComparable
     {
         private static int TaxaOperacao;
 
@@ -125,6 +125,27 @@ namespace ByteBank.SistemaAgencia
         public override string ToString()
         {
             return $"Agência: {Agencia} Número: {Numero}";
+        }
+
+        public int CompareTo(object obj)
+        {
+            // Retornar negativo quando a instância precede o obj
+            // Retornar zero quando nossa instância e obj forem equivalentes;
+            // Retornar positivo diferente de zero quando a precedência for de obj;
+
+            var outraConta = obj as ContaCorrente;
+
+            if (Numero < outraConta.Numero)
+            {
+                return -1;
+            }
+
+            if (Numero == outraConta.Numero)
+            {
+                return 0;
+            }
+
+            return 1;
         }
     }
 }

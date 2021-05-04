@@ -29,6 +29,7 @@ namespace ByteBank.SistemaAgencia.Extensoes
             {
                 Console.Write(item + " ");
             }
+            Console.WriteLine();
         }
     }
 }
